@@ -4,6 +4,10 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from customer.views import index
+from theater.forms import *
+from django.db import transaction
+from .models import *
+from django.db import models
 
 def signup_form(request):
 	return render(request,'accounts/signup_form.html')
@@ -67,4 +71,3 @@ def delete(request):
 	User.objects.get(username=request.user).delete
 	messages.success(request,'user deleted')
 	return redirect(index)
-
