@@ -80,7 +80,7 @@ WSGI_APPLICATION = 'book_my_movie.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'extra',
+        'NAME': 'db1',
         'USER': 'root',
         'PORT': 3306,
         'HOST': 'localhost',

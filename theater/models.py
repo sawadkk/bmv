@@ -26,18 +26,9 @@ class Movie(models.Model):
 	screen = models.ForeignKey(Screen, on_delete=models.CASCADE)
 	movie_name = models.TextField()
 	poster_image = models.ImageField(upload_to='thumbnails/',blank=True,null=True)
-	start_date = models.DateField()
-	end_date = models.DateField()
+	summery = models.TextField()
 
 	def __str__(self):
 		return self.movie_name
 
-class Show(models.Model):
-	screen = models.ForeignKey(Screen, on_delete=models.CASCADE)
-	theater = models.ForeignKey(User, on_delete=models.CASCADE)
-	movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
-	show_status = MultiSelectField(choices=SCREEN_CHOICES)
-	time = models.DateTimeField()
 
-	def __str__(self):
-		return self.time

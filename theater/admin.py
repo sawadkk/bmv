@@ -3,4 +3,3 @@ from .models import *
 
 admin.site.register(Screen)
 admin.site.register(Movie)
-admin.site.register(Show)

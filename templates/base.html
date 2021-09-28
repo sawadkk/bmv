@@ -50,7 +50,7 @@
             <div class="header-wrapper">
                 <div class="logo">
                     <a href="index.html">
-                        <img src="{% static 'assets/images/logo/logo.png' %}' %}" alt="logo">
+                        <img src="{% static 'assets/images/logo/logo.png' %}" alt="logo">
                     </a>
                 </div>
                 <ul class="menu">
@@ -291,6 +291,31 @@
     {% endfor %}
     {% endif %}
 </body>
+
+<!--<script
+        src="https://code.jquery.com/jquery-3.5.0.min.js"
+        integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ="
+        crossorigin="anonymous"></script>
+<script>
+    const form = document.getElementById('form');
+    form.addEventListner('submit',submitHandler):
+
+    function submitHandler(e){
+        e.preventDefault();
+        $.ajax({
+            type: 'GET',
+            url: 'url 'shows''
+            data: $("#form").serliaze(),
+            dataType: 'json',
+            success: function (data) {
+                if (data.msg === 'Success') {
+                    alert("updated")
+                }
+            }
+
+        })
+    }
+</script>-->
 
 
 </html>
