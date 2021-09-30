@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Ticket Plan{% endblock %}
+{% block body %}
+
+
+{% for shows in shows %}
+<h1>{{shows.movie.movie_name}}</h1>
+{% endfor %}
+{% endblock %}
