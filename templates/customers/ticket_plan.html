@@ -4,18 +4,7 @@
 {% block body %}
 
 
- <!-- ==========Window-Warning-Section========== -->
-    <section class="window-warning inActive">
-        <div class="lay"></div>
-        <div class="warning-item">
-            <h6 class="subtitle">Welcome! </h6>
-            <h4 class="title">Select Your Seats</h4>
-            <div class="thumb">
-                <img src="{% static 'assets/images/movie/seat-plan.png' %}" alt="movie">
-            </div>
-            <a href="movie-seat-plan.html" class="custom-button seatPlanButton">Seat Plans<i class="fas fa-angle-right"></i></a>
-        </div>
-    </section>
+ 
     <!-- ==========Window-Warning-Section========== -->
 
     <!-- ==========Banner-Section========== -->
@@ -43,15 +32,16 @@
         <div class="container">
             <form class="ticket-search-form two" action="{% url 'load_data' %}" method="POST">
                 {% csrf_token %}
+                {% for movie in movie %}
+                        <input type="hidden" name="pk" value="{{movie.pk}}">{% endfor %}
                 <div class="form-group">
                     <div class="thumb">
                         <img src="{% static 'assets/images/ticket/city.png' %}" alt="ticket">
                     </div>
                     <span class="type">location</span>
-                    <select class="select-bar">
-                        {% for show in shows %}
-                        <input type="hidden" name="{{show.pk}}">
-                        <option value="{{show.theater.location}}"name="{{show.theater.location}}">{{show.theater.location}}</option>
+                    <select class="select-bar" name="location">
+                        {% for movie in movie %}
+                        <option value="{{movie.theater.profile.location}}">{{movie.theater.profile.location}}</option>
                        {% endfor %}
                     </select>
                 </div>
@@ -60,9 +50,10 @@
                         <img src="{% static 'assets/images/ticket/date.png' %}" alt="ticket">
                     </div>
                     <span class="type">date</span>
-                    <select class="select-bar">
-                        {% for show in shows %}
-                        <option value="{{show.date}}"selected="selected" name="{{show.date}}">{{show.date}}</option>
+                    <select class="select-bar" name="date">
+                        {% for dates in dates %}
+            
+                        <option value="{{dates}}">{{dates}}</option>
                         {% endfor %}
                     </select>
                 </div>
@@ -79,6 +70,7 @@
                 <div class="col-lg-9 mb-5 mb-lg-0">
                     <ul class="seat-plan-wrapper bg-five">
                         {% for show in shows %}
+                        <h3>showing result of {{show.date}}</h3>
                         <li>
                             <div class="movie-name">
                                 <div class="icons">
@@ -91,12 +83,27 @@
                                 </div>
                             </div>
                             <div class="movie-schedule">
-                                <div class="item">
+                                    <div class="item">
                                     {{show.time}}
-                                </div>
+                                    </div>
                             </div>
                         </li>
-                        {% endfor %}
+                            <!-- ==========Window-Warning-Section========== -->
+    <section class="window-warning inActive">
+        <div class="lay"></div>
+        <div class="warning-item">
+            <h6 class="subtitle">Welcome! </h6>
+            <h4 class="title">Select Your Seats</h4>
+            <div class="thumb">
+                <img src="assets/images/movie/seat-plan.png" alt="movie">
+            </div>
+            <a href="{% url 'seat_plan' show.pk %}" class="custom-button seatPlanButton">Seat Plans<i class="fas fa-angle-right"></i></a>
+        </div>
+    </section>
+    <!-- ==========Window-Warning-Section========== -->
+
+
+                            {% endfor %}
                             
                     </ul>
                 </div>

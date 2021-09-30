@@ -104,9 +104,9 @@
                         <p><a href="#0">Rate It</a></p>
                     </div>
                 </div>
-                {% if shows %}
-                {% for show in shows %}
-                <a href="{% url 'ticket_plan' show.pk %}" class="custom-button">book tickets</a>
+                {% if movie %}
+                {% for movie in movie %}
+                <a href="{% url 'ticket_plan' movie.pk %}" class="custom-button">book tickets</a>
                 {% endfor %}
                 {% endif %}
             </div>
