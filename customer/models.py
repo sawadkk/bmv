@@ -22,4 +22,4 @@ class Show(models.Model):
 	time = models.TimeField()
 
 	def __str__(self):
-		return  self.screen.screen_name +" | "+ self.movie.movie_name +" | "#, self.time
+		return  self.screen.screen_name +" | "+ self.movie.movie_name +" | ", self.time

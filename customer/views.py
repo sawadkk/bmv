@@ -48,4 +48,13 @@ def load_data(request):
 
 def seat_plan(request, show_pk):
 	show = Show.objects.filter(id=show_pk)
-	return render(request,'customers/seat_plan.html',{'shows':show})
+	for seat in show:
+		max_seat = (seat.screen.seating_capacity)
+	my_lst = []
+	#max_seat2 = int(max_seat/10)
+	for i in range(1,max_seat+1):
+		my_lst.append(i)
+	print(my_lst)
+
+
+	return render(request,'customers/seat_plan.html',{'shows':show,'seat':my_lst})
