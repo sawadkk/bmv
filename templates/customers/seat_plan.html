@@ -68,16 +68,23 @@
                             <ul class="seat--area">
                                 <li class="front-seat">
                                     <ul>
-                                        {% for seat in seat %}
+                                    {% for seat in seat %}
                                         {% if seat <= 20 %}
+                                            {% if seat in book  %}
+
+                                        <li class="single-seat">
+                                            <img src="{% static 'assets/images/movie/seat01.png' %}" alt="seat">
+                                        </li>
+
+                                            {% else %}
                                     
                                        
                                             <li class="single-seat seat-free" name="">
                                             <img src="{% static 'assets/images/movie/seat.png' %}" alt="seat">
                                             <span class="sit-num" name="check" id="seat">{{seat}}</span>
-                                            
-                                             {% endif %}
-                                             {% endfor %}
+                                           {% endif %} 
+                                        {% endif %}
+                                    {% endfor %}
                                         </li>
                                         </li>
                                         
@@ -96,14 +103,21 @@
                                     <ul>
                                         {% for seat in seat %}
                                         {% if seat > 40 and seat <= 60 %}
+                                    {% if seat in book  %}
+
+                                        <li class="single-seat">
+                                            <img src="{% static 'assets/images/movie/seat01.png' %}" alt="seat">
+                                        </li>
+
+                                            {% else %}
                                     
                                        
-                                            <li class="single-seat seat-free" >
-                                            <img src="{% static 'assets/images/movie/seat.png' %}" alt="seat" value="{{seat}}">
-                                            <span class="sit-num" id="seat">{{seat}}</span>
-                                             <br>
-                                             {% endif %}
-                                             {% endfor %}
+                                            <li class="single-seat seat-free" name="">
+                                            <img src="{% static 'assets/images/movie/seat.png' %}" alt="seat">
+                                            <span class="sit-num" name="check" id="seat">{{seat}}</span>
+                                           {% endif %} 
+                                        {% endif %}
+                                    {% endfor %}
                                         </li>
 
                                         </li>
@@ -123,14 +137,21 @@
                                     <ul>
                                         {% for seat in seat %}
                                         {% if seat > 60 and seat <= 80 %}
+                                    {% if seat in book  %}
+
+                                        <li class="single-seat">
+                                            <img src="{% static 'assets/images/movie/seat01.png' %}" alt="seat">
+                                        </li>
+
+                                            {% else %}
                                     
                                        
-                                            <li class="single-seat seat-free">
+                                            <li class="single-seat seat-free" name="">
                                             <img src="{% static 'assets/images/movie/seat.png' %}" alt="seat">
-                                            <span class="sit-num" id="seat">{{seat}}</span>
-                                             <br>
-                                             {% endif %}
-                                             {% endfor %}
+                                            <span class="sit-num" name="check" id="seat">{{seat}}</span>
+                                           {% endif %} 
+                                        {% endif %}
+                                    {% endfor %}
                                         </li>
                                         </li>
                                         
@@ -149,14 +170,21 @@
                                     <ul>
                                         {% for seat in seat %}
                                         {% if seat > 80 and seat <= 100 %}
+                                        {% if seat in book  %}
+
+                                        <li class="single-seat">
+                                            <img src="{% static 'assets/images/movie/seat01.png' %}" alt="seat">
+                                        </li>
+
+                                            {% else %}
                                     
                                        
-                                            <li class="single-seat seat-free">
+                                            <li class="single-seat seat-free" name="">
                                             <img src="{% static 'assets/images/movie/seat.png' %}" alt="seat">
-                                            <span class="sit-num" id="seat">{{seat}}</span>
-                                             <br>
-                                             {% endif %}
-                                             {% endfor %}
+                                            <span class="sit-num" name="check" id="seat">{{seat}}</span>
+                                           {% endif %} 
+                                        {% endif %}
+                                    {% endfor %}
                                         </li>
                                         </li>
                                         
