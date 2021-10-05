@@ -31,4 +31,15 @@ class Movie(models.Model):
 	def __str__(self):
 		return self.movie_name
 
+class Show(models.Model):
+	screen = models.ForeignKey(Screen, on_delete=models.CASCADE)
+	theater = models.ForeignKey(User, on_delete=models.CASCADE)
+	movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
+	#start_date = models.DateField()
+	#end_date = models.DateField()
+	date = models.DateField()
+	time = models.TimeField()
+
+	
+
 

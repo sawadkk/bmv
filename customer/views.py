@@ -51,10 +51,27 @@ def seat_plan(request, show_pk):
 	for seat in show:
 		max_seat = (seat.screen.seating_capacity)
 	my_lst = []
+	book_lst = []
 	#max_seat2 = int(max_seat/10)
 	for i in range(1,max_seat+1):
 		my_lst.append(i)
-	print(my_lst)
+		if Pending.objects.filter(seat_number=i).exists():
+			book_lst.append(i)
+	print(book_lst)
 
 
-	return render(request,'customers/seat_plan.html',{'shows':show,'seat':my_lst})
+	return render(request,'customers/seat_plan.html',{'shows':show,'seat':my_lst,'book':book_lst})
+
+def booking(request):
+	if request.method == 'POST':
+		seats = request.POST['seats']
+		show_id = request.POST['show_id']
+		show = Show.objects.get(id=show_id)
+		seat = seats.split(",")
+		length = len(seat)
+		for a in range(length):
+			f = seat[a]
+			print(f)
+			pending  = Pending.objects.create(user=request.user,show=show,seat_number=f)
+		return redirect('index') 
+	return redirect('index')

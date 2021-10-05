@@ -8,5 +8,6 @@ urlpatterns = [
                url(r'^ticket_plan(?P<movie_pk>\d+)',views.ticket_plan,name='ticket_plan'),
                path('load_data',views.load_data,name="load_data"),
                url(r'^seat_plan(?P<show_pk>\d+)',views.seat_plan,name='seat_plan'),
+               path('booking',views.booking,name="booking"),
                ]
 
