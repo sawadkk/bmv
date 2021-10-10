@@ -1,17 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from multiselectfield import MultiSelectField
 
-SCREEN_CHOICES = (('empty', 'empty'),
-              ('housefull', 'housefull'),
-              ('filling', 'filling'),
-              ('canceled', 'canceled'))
-#TIME_CHOICES = ((1, '6am'),
-#               (2, '9am'),
-#               (3, '11am'),
-#               (4, '2pm'),
-#               (5, '5pm'),
-#               (6,'9pm'))
 
 class Screen(models.Model):
 	screen_name = models.TextField(max_length=50)

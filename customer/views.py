@@ -47,7 +47,7 @@ def load_data(request):
 	return redirect('index')
 
 def seat_plan(request, show_pk):
-	show = Show.objects.filter(id=show_pk)
+	show = Show.objects.filter(id=show_pk,theater=request.user)
 	for seat in show:
 		max_seat = (seat.screen.seating_capacity)
 	my_lst = []

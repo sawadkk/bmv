@@ -9,7 +9,7 @@ from .forms import *
 from django.db import transaction
 from accounts.models import *
 from django.db import models
-from .tasks import send_mail_func
+from .tasks import send_mail_func,test_func
 from django.urls import reverse_lazy
 from django.views import generic
 from .models import *
