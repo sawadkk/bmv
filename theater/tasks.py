@@ -16,7 +16,7 @@ def send_mail_func(self):
     users = get_user_model().objects.all()
     for user in users:
         mail_subject = "Hi! Celery Testing"
-        message = "If you are liking my content, please hit the like button and do subscribe to my channel"
+        message = "Hi! Celery Testing"
         to_email = user.email
         send_mail(
             subject = mail_subject,
