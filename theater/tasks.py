@@ -12,11 +12,11 @@ def test_func(self):
     return "Done"
 
 @shared_task(bind=True)
-def send_mail_func(self):
-    users = get_user_model().objects.all()
+def send_mail_func(self,token_user):
+    users = get_user_model().objects.filter(username='sawad')
     for user in users:
-        mail_subject = "Hi! Celery Testing"
-        message = "Hi! Celery Testing"
+        mail_subject = "book_my_show login token"
+        message = "book_my_movie one time theater login link:  http://127.0.0.1:8000/theater/test2"+token_user+""+user.username
         to_email = user.email
         send_mail(
             subject = mail_subject,

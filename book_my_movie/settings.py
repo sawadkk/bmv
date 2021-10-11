@@ -27,6 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+AUTHENTICATION_BACKENDS = ['sesame.backends.ModelBackend','django.contrib.auth.backends.ModelBackend']
 
 # Application definition
 
@@ -50,9 +51,11 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    "sesame.middleware.AuthenticationMiddleware",
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
 
 ROOT_URLCONF = 'book_my_movie.urls'
 
@@ -156,3 +159,5 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER ='python.class.def@gmail.com'
 EMAIL_HOST_PASSWORD = "djnajlmnfkniaeqw"
 DEFAULT_FROM_EMAIL = 'Celery <python.class.def@gmail.com>'
+
+SESAME_ONE_TIME = True

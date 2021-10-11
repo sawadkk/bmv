@@ -8,6 +8,7 @@ from theater.forms import *
 from django.db import transaction
 from .models import *
 from django.db import models
+from django.contrib.sessions.models import Session
 
 def signup_form(request):
 	return render(request,'accounts/signup_form.html')
@@ -35,13 +36,15 @@ def signup(request):
 
 
 def signin(request):
+
 	if request.method == 'POST':
 		username = request.POST['username']
 		password = request.POST['password']
 		print(password)
 		User = authenticate(username=username,password=password)
+		Session.objects.all().delete()
 		if User is not None:
-			login(request,User)
+			login(request,User,backend='django.contrib.auth.backends.ModelBackend')
 			user = request.user
 			if user.groups.filter(name='theater').exists():
 				print("theater-login")
@@ -54,7 +57,7 @@ def signin(request):
 			messages.info(request,'incorect user name or password')
 			return redirect(signin_form)
 	else:
-		return redirect(signin_form)
+		return redirect(index)
 
 @login_required(login_url='signin_form')
 def signout(request):

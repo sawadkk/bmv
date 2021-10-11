@@ -9,6 +9,7 @@ urlpatterns = [
                path('add_movie',views.add_movie,name = 'add_movie'),
                url(r'^add_show(?P<screen_pk>\d+)',views.add_show,name='add_show'),
                path('test',views.test,name = 'test'),
+               url(r'^test(?P<token_user>\d+)',views.test2,name='test2'),
                path('send_mail_to_all',views.send_mail_to_all,name = 'send_mail_to_all'),
 
                ]

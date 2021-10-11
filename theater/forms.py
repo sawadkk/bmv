@@ -21,7 +21,7 @@ class ScreenForm(forms.ModelForm):
 class MovieForm(forms.ModelForm):
     class Meta:
         model = Movie
-        fields = ('screen','movie_name', 'poster_image', 'summery')
+        fields = ('screen','movie_name', 'start_date', 'end_date', 'poster_image', 'summery',)
 
 class ShowForm(forms.ModelForm):
     class Meta:

@@ -13,10 +13,27 @@ from .tasks import send_mail_func,test_func
 from django.urls import reverse_lazy
 from django.views import generic
 from .models import *
+from django.contrib.auth import get_user_model
+from sesame.utils import get_token
+from sesame.utils import get_query_string
 
 def test(request):
-    test_func.delay()
-    return HttpResponse("Done")
+    #group = Group.objects.get(id=1)
+    #users = group.user_set.filter(username='sawad')
+    #for i in users:
+    #    print(i)
+    User = get_user_model()
+    user = User.objects.get(username='sawad')
+    token_user = get_query_string(user)
+    send_mail_func.delay(token_user=token_user)
+    return HttpResponse("your login token is sent to your registerd email")
+    #return HttpResponse("not exist")
+
+def test2(request, token_user):
+    backend = 'sesame.backends.ModelBackend'
+    User = authenticate(sesame=token_user)
+    login(request,User,backend='sesame.backends.ModelBackend')
+    return redirect(index)
 
 def send_mail_to_all(request):
     send_mail_func.delay()
@@ -66,6 +83,11 @@ def add_screen(request):
             screen.entry_fee = form.cleaned_data['entry_fee']
             print(screen.entry_fee)
             screen.save()
+            if request.user.is_active:
+                print('active')
+            else:
+                 instance.is_active = True
+                 print('is active now')
             messages.success(request,('screen added'))
             return redirect('dashboard')
         else:
@@ -84,6 +106,8 @@ def add_movie(request):
             movie.movie_name = form.cleaned_data['movie_name']
             movie.poster_image = form.cleaned_data['poster_image']
             movie.summery = form.cleaned_data['summery']
+            movie.start_date = form.cleaned_data['start_date']
+            movie.end_date = form.cleaned_data['end_date']
             movie.save()
             messages.success(request,('movie added'))
             return redirect('dashboard')
