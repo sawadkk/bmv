@@ -95,6 +95,34 @@ def add_screen(request):
             return render(request,'theater/add_screen.html',{'screen_form':form})
     return render(request,'theater/add_screen.html',{'screen_form':form})
 
+def update_screen(request, screen_pk):
+    item = Screen.objects.get(pk=screen_pk)
+    updateForm = ScreenForm(instance=item)
+    if request.method=='POST':
+        screenAdd = ScreenForm(request.POST,instance=item)
+        if screenAdd.is_valid():
+            screenAdd.save()
+            messages.success(request, 'Screen has been updated.')
+            return redirect('dashboard')
+        else:
+            messages.success(request, 'oops validation failed')
+            return render(request,'theater/update_screen.html',{
+                'form':updateForm,
+                'item':item
+                })
+    data = Screen.objects.filter(pk=screen_pk)
+    return render(request,'theater/update_screen.html',{
+        'form':updateForm,
+        'item':data
+    })
+
+def screen_delete(request,screen_pk):
+    if Screen.objects.filter(id=screen_pk,theater=request.user):
+        Screen.objects.get(id=screen_pk).delete()
+        messages.success(request,'screen deleted')
+        return redirect('dashboard')
+    return redirect('index')
+
 def add_movie(request):
     form = MovieForm()
     if request.method == 'POST':
@@ -115,6 +143,34 @@ def add_movie(request):
             messages.error(request, ('Please correct the error below.'))
             return render(request,'theater/add_movie.html',{'movie_form':form})
     return render(request,'theater/add_movie.html',{'movie_form':form})
+
+def update_movie(request, movie_pk):
+    item = Movie.objects.get(pk=movie_pk)
+    updateForm = MovieForm(instance=item)
+    if request.method=='POST':
+        movieAdd = MovieForm(request.POST,instance=item)
+        if movieAdd.is_valid():
+            movieAdd.save()
+            messages.success(request, 'movie has been updated.')
+            return redirect('dashboard')
+        else:
+            messages.success(request, 'oops validation failed')
+            return render(request,'theater/update_movie.html',{
+                'form':updateForm,
+                'item':item
+                })
+    data = Movie.objects.filter(pk=movie_pk)
+    return render(request,'theater/update_movie.html',{
+        'form':updateForm,
+        'item':data
+    })
+
+def movie_delete(request,movie_pk):
+    if Movie.objects.filter(id=movie_pk,screen=5):
+        Movie.objects.get(id=movie_pk).delete()
+        messages.success(request,'movie deleted')
+        return redirect('dashboard')
+    return redirect('index')
 
 def add_show(request, screen_pk):
     form = ShowForm()
@@ -137,3 +193,31 @@ def add_show(request, screen_pk):
     screen = Screen.objects.filter(pk=screen_pk)
     sawad = screen_pk
     return render(request,'theater/add_show.html',{'show_form':form,'screen':screen})
+
+def update_show(request, show_pk):
+    item = Show.objects.get(pk=show_pk)
+    updateForm = ShowForm(instance=item)
+    if request.method=='POST':
+        showAdd = ShowForm(request.POST,instance=item)
+        if showAdd.is_valid():
+            showAdd.save()
+            messages.success(request, 'show has been updated.')
+            return redirect('dashboard')
+        else:
+            messages.success(request, 'oops validation failed')
+            return render(request,'theater/update_show.html',{
+                'form':updateForm,
+                'item':item
+                })
+    data = Show.objects.filter(pk=show_pk)
+    return render(request,'theater/update_show.html',{
+        'form':updateForm,
+        'item':data
+    })
+
+def show_delete(request,show_pk):
+    if Show.objects.filter(id=show_pk,theater=request.user):
+        Show.objects.get(id=show_pk).delete()
+        messages.success(request,'show deleted')
+        return redirect('dashboard')
+    return redirect('index')
