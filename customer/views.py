@@ -2,6 +2,7 @@ from django.shortcuts import render,redirect
 from theater.models import *
 from .models import *
 from datetime import date
+from django.contrib import messages
 
 global today 
 today = date.today()
@@ -47,7 +48,8 @@ def load_data(request):
 	return redirect('index')
 
 def seat_plan(request, show_pk):
-	show = Show.objects.filter(id=show_pk,theater=request.user)
+	show = Show.objects.filter(id=show_pk)
+	max_seat = 0
 	for seat in show:
 		max_seat = (seat.screen.seating_capacity)
 	my_lst = []
@@ -55,9 +57,12 @@ def seat_plan(request, show_pk):
 	#max_seat2 = int(max_seat/10)
 	for i in range(1,max_seat+1):
 		my_lst.append(i)
-		if Pending.objects.filter(seat_number=i).exists():
+		if Pending.objects.filter(show=show_pk,seat_number=i).exists():
 			book_lst.append(i)
 	print(book_lst)
+	if book_lst == []:
+		messages.error(request,'oops show not found')
+		return redirect('index')
 
 
 	return render(request,'customers/seat_plan.html',{'shows':show,'seat':my_lst,'book':book_lst})
