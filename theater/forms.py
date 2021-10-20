@@ -3,7 +3,6 @@ from accounts.models import *
 from django.contrib.auth.models import User, Group
 from .models import *
 
-
 class UserForm(forms.ModelForm):
     class Meta:
         model = User
@@ -16,15 +15,15 @@ class ProfileForm(forms.ModelForm):
 class ScreenForm(forms.ModelForm):
     class Meta:
         model = Screen
-        fields = ('screen_name', 'seating_capacity', 'entry_fee')
+        fields = ('screen_name', 'seating_capacity', 'entry_fee',)
 
 class MovieForm(forms.ModelForm):
     class Meta:
         model = Movie
-        fields = ('screen','movie_name', 'start_date', 'end_date', 'poster_image', 'summery',)
+        fields = ('movie_name', 'start_date', 'end_date', 'poster_image', 'summery',)
 
 class ShowForm(forms.ModelForm):
     class Meta:
         model = Show
-        fields = ('movie', 'date', 'time')
+        fields = ('movie', 'date', 'play_time', 'status')
         

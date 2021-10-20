@@ -28,7 +28,7 @@ def signup(request):
 		print("user created")
 
 		messages.success(request,'user created succesfully')
-		login(request,user)
+		login(request,user,backend='django.contrib.auth.backends.ModelBackend')
 		print("userlogin")
 		return redirect(index)
 	else:

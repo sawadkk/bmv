@@ -8,6 +8,7 @@ from customer.views import index
 from .forms import *
 from django.db import transaction
 from accounts.models import *
+from customer.models import *
 from django.db import models
 from .tasks import send_mail_func,test_func
 from django.urls import reverse_lazy
@@ -16,6 +17,7 @@ from .models import *
 from django.contrib.auth import get_user_model
 from sesame.utils import get_token
 from sesame.utils import get_query_string
+from django.http import JsonResponse,HttpResponseRedirect,HttpResponse
 
 def test(request):
     #group = Group.objects.get(id=1)
@@ -44,7 +46,18 @@ def dashboard(request):
     user=request.user
     if user.groups.filter(name='theater').exists():
         screen = Screen.objects.filter(theater=request.user)
-        return render(request,'theater/dashboard.html',{'screen':screen})
+        show_count1 = {}
+        for i in screen:
+            screen1 = Screen.objects.get(id=i.pk)
+            show1 = Show.objects.filter(theater=request.user,screen=i.pk)
+            
+        print(show_count1)
+
+        show = Show.objects.filter(theater=request.user,screen__in=screen)
+        show_count = show.count()
+        booking = Booking.objects.filter(show__in=show).count()
+        booking_requests = Booking.objects.filter(show__in=show,status='pending').count()
+        return render(request,'theater/dashboard.html',{'screen':screen,'show_count':show_count1,'booking':booking,'show':show,'booking_requests':booking_requests})
     else:
         messages.info(request,"permission denied")
         return redirect('index')
@@ -129,8 +142,9 @@ def add_movie(request):
         print(1)
         form = MovieForm(request.POST)
         if form.is_valid():
+            print(1)
             movie = Movie()
-            movie.screen = form.cleaned_data['screen']
+            movie.theater = request.user
             movie.movie_name = form.cleaned_data['movie_name']
             movie.poster_image = form.cleaned_data['poster_image']
             movie.summery = form.cleaned_data['summery']
@@ -172,6 +186,12 @@ def movie_delete(request,movie_pk):
         return redirect('dashboard')
     return redirect('index')
 
+def screen_shows(request,screen_pk):
+    show = Show.objects.filter(screen=screen_pk,theater=request.user)
+    booking = Booking.objects.filter(show__in=show).count()
+    booking_requests = Booking.objects.filter(show__in=show,status='pending').count()
+    return render(request,'theater/screen_shows.html',{'show':show,'booking':booking,'booking_requests':booking_requests})
+
 def add_show(request, screen_pk):
     form = ShowForm()
     if request.method == 'POST':
@@ -183,7 +203,7 @@ def add_show(request, screen_pk):
             show.theater = request.user
             show.movie = form.cleaned_data['movie']
             show.date = form.cleaned_data['date']
-            show.time = form.cleaned_data['time']
+            show.play_time = form.cleaned_data['play_time']
             show.save()
             messages.success(request,('show added'))
             return redirect('dashboard')
@@ -221,3 +241,26 @@ def show_delete(request,show_pk):
         messages.success(request,'show deleted')
         return redirect('dashboard')
     return redirect('index')
+
+def booking_requests(request,show_pk):
+    show = Show.objects.filter(id=show_pk)
+    booking_requests = Booking.objects.filter(show__in=show,status='Pending')
+    return render(request,'theater/booking_requests.html',{'booking_requests':booking_requests,'show':show})
+
+def accept_booking(request, booking_pk):
+    if Show.objects.filter(theater=request.user):
+        booking = Booking.objects.filter(id=booking_pk)
+        booking.update(status="Approved")
+        messages.success(request,'booking accepted')
+        return redirect(request.META['HTTP_REFERER'])
+    messages.error(request,'oops 404')
+    return redirect('dashboard')
+
+def reject_booking(request, booking_pk):
+    if Show.objects.filter(theater=request.user):
+        booking = Booking.objects.filter(id=booking_pk)
+        booking.update(status="Rejected")
+        messages.success(request,'booking rejected')
+        return redirect(request.META['HTTP_REFERER'])
+    messages.error(request,'oops 404')
+    return redirect('dashboard')

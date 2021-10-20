@@ -45,7 +45,7 @@ def load_data(request):
 			dates.append(date)
 		print(dates)
 		return render(request,'customers/load_data.html',{'shows':show,'movie':movie,'dates':dates})
-	return redirect('index')
+	return redirect(index)
 
 def seat_plan(request, show_pk):
 	show = Show.objects.filter(id=show_pk)
@@ -57,14 +57,9 @@ def seat_plan(request, show_pk):
 	#max_seat2 = int(max_seat/10)
 	for i in range(1,max_seat+1):
 		my_lst.append(i)
-		if Pending.objects.filter(show=show_pk,seat_number=i).exists():
+		if Booking.objects.filter(show=show_pk,seat_number=i).exists():
 			book_lst.append(i)
 	print(book_lst)
-	if book_lst == []:
-		messages.error(request,'oops show not found')
-		return redirect('index')
-
-
 	return render(request,'customers/seat_plan.html',{'shows':show,'seat':my_lst,'book':book_lst})
 
 def booking(request):
@@ -77,6 +72,6 @@ def booking(request):
 		for a in range(length):
 			f = seat[a]
 			print(f)
-			pending  = Pending.objects.create(user=request.user,show=show,seat_number=f)
+			pending  = Booking.objects.create(user=request.user,show=show,seat_number=f,status='Pending')
 		return redirect('index') 
 	return redirect('index')
